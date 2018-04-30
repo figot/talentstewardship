@@ -12,7 +12,15 @@ console
     migrations/          contains database migrations
     models/              contains console-specific model classes
     runtime/             contains files generated during runtime
-backend
+app
+    assets/              contains application restful api
+    config/              contains app configurations
+    controllers/         contains Web controller classes
+    models/              contains backend-specific model classes
+    runtime/             contains files generated during runtime
+    views/               contains view files for the Web application
+    web/                 contains the entry script and Web resources
+b
     assets/              contains application assets such as JavaScript and CSS
     config/              contains backend configurations
     controllers/         contains Web controller classes
@@ -20,8 +28,8 @@ backend
     runtime/             contains files generated during runtime
     views/               contains view files for the Web application
     web/                 contains the entry script and Web resources
-frontend
-    assets/              contains application assets such as JavaScript and CSS
+f
+    assets/              contains application assets such as h5
     config/              contains frontend configurations
     controllers/         contains Web controller classes
     models/              contains frontend-specific model classes
