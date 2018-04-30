@@ -1,0 +1,70 @@
+.nper_upload_con {
+    width: 300px;
+    height: 100px;
+    position: relative;
+}
+.nper_upload_img {
+    width: 218px;
+    height: 146px;
+    background: url(../images/bg.jpg) no-repeat center center;
+    border: 1px solid #e4e4e4;
+    cursor: pointer;
+    float: left;
+    margin-right: 12px;
+    color: #999999;
+    line-height: 146px;
+    text-align: center;
+}
+.nper_upload_img.empty {
+    background: url(../images/white.png) repeat center center;
+}
+.nper_real_img {
+    position: absolute;
+    width: 218px;
+    height: 146px;
+    /*top: 1px;*/
+    /*left: 1px;*/
+    overflow: hidden;
+    cursor: pointer;
+}
+.nper_real_img img{
+    width: 100%;
+    height:100%;
+}
+.nper_upload_img:hover {
+    border-color: #f3a948;
+    color: #ff7624;
+}
+.nper_upload_img:hover .plus, .nper_upload_img:hover .plus_text {
+    color: #ff7624;
+}
+.nper_upload_text {
+    width: 100px;
+    float: left;
+    padding-top: 12px;
+}
+.nper_upload_con .red {
+    color: #ff6702;
+}
+.nper_upload_con .upname {
+    color: #1f1d1c;
+    line-height: 12px;
+}
+.nper_upload_con .rule {
+    color: #999999;
+    line-height: 22px;
+}
+.nper_upload_con .plus {
+    font-size: 100px;
+    color: #b8b8b8;
+    line-height: 100px;
+}
+.nper_upload_con .plus_text {
+    color: #999999;
+    line-height: 22px;
+}
+.green{
+    background-color: #35aa47;
+    color: white;
+    text-shadow: none;
+}

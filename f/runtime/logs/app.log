@@ -1,0 +1,77 @@
+2018-04-30 15:38:12 [::1][-][t7dih65bgur6uuakil43qm6r01][error][ReflectionException] exception 'ReflectionException' with message 'Class backend\assets\AppAsset does not exist' in /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/di/Container.php:424
+Stack trace:
+#0 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/di/Container.php(424): ReflectionClass->__construct('backend\\assets\\...')
+#1 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/di/Container.php(364): yii\di\Container->getDependencies('backend\\assets\\...')
+#2 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/di/Container.php(156): yii\di\Container->build('backend\\assets\\...', Array, Array)
+#3 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/BaseYii.php(348): yii\di\Container->get('backend\\assets\\...', Array, Array)
+#4 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/web/AssetManager.php(266): yii\BaseYii::createObject(Array)
+#5 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/web/AssetManager.php(239): yii\web\AssetManager->loadBundle('backend\\assets\\...', Array, true)
+#6 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/web/View.php(286): yii\web\AssetManager->getBundle('backend\\assets\\...')
+#7 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/web/View.php(291): yii\web\View->registerAssetBundle('backend\\assets\\...', NULL)
+#8 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/web/View.php(416): yii\web\View->registerAssetBundle('/f/web/statics/...')
+#9 /Users/baidu/tieba/xampp/talentStewardship/f/views/wap/activeindex.php(6): yii\web\View->registerCssFile('@web/statics/as...', Array)
+#10 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/base/View.php(330): require('/Users/baidu/ti...')
+#11 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/base/View.php(250): yii\base\View->renderPhpFile('/Users/baidu/ti...', Array)
+#12 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/base/View.php(152): yii\base\View->renderFile('/Users/baidu/ti...', Array, Object(f\controllers\WapController))
+#13 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/base/Controller.php(381): yii\base\View->render('activeindex', Array, Object(f\controllers\WapController))
+#14 /Users/baidu/tieba/xampp/talentStewardship/f/controllers/WapController.php(461): yii\base\Controller->render('activeindex', Array)
+#15 [internal function]: f\controllers\WapController->actionActiveindex()
+#16 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#17 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#18 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('activeindex', Array)
+#19 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('wap/activeindex', Array)
+#20 /Users/baidu/tieba/xampp/talentStewardship/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#21 /Users/baidu/tieba/xampp/talentStewardship/f/web/index.php(18): yii\base\Application->run()
+#22 {main}
+2018-04-30 15:38:12 [::1][-][t7dih65bgur6uuakil43qm6r01][info][application] $_COOKIE = [
+    '_ga' => 'GA1.1.1152187571.1521277084'
+    'PHPSESSID' => 't7dih65bgur6uuakil43qm6r01'
+    '_csrf' => '86af4d3a865ad9a594aac762f10371575b50086b12a6cd6f58877f5c1f18b810a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"oV¼2¶Ä:`íÇ£Z„¨4üúj%
+‚QI,o¸C”ì\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__returnUrl' => '/b/web/'
+    '__id' => 1
+]
+
+$_SERVER = [
+    'REDIRECT_UNIQUE_ID' => 'WuccRMCoA2oAAMcIkdoAAAAG'
+    'REDIRECT_STATUS' => '200'
+    'UNIQUE_ID' => 'WuccRMCoA2oAAMcIkdoAAAAG'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh,en;q=0.9'
+    'HTTP_COOKIE' => '_ga=GA1.1.1152187571.1521277084; PHPSESSID=t7dih65bgur6uuakil43qm6r01; _csrf=86af4d3a865ad9a594aac762f10371575b50086b12a6cd6f58877f5c1f18b810a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22oV%BC2%B6%C4%1A%3A%60%ED%0E%C7%A3Z%84%A84%FC%FAj%25%0A%82%16QI%2Co%B8C%94%EC%22%3B%7D'
+    'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin'
+    'DYLD_LIBRARY_PATH' => '/Applications/XAMPP/xamppfiles/lib:/Applications/XAMPP/xamppfiles/lib'
+    'SERVER_SIGNATURE' => ''
+    'SERVER_SOFTWARE' => 'Apache/2.4.16 (Unix) OpenSSL/1.0.1p PHP/5.5.28 mod_perl/2.0.8-dev Perl/v5.16.3'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => '/Users/baidu/tieba/xampp/talentStewardship'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/Users/baidu/tieba/xampp/talentStewardship'
+    'SERVER_ADMIN' => 'you@example.com'
+    'SCRIPT_FILENAME' => '/Users/baidu/tieba/xampp/talentStewardship/f/web/index.php'
+    'REMOTE_PORT' => '51295'
+    'REDIRECT_URL' => '/f/web/wap/activeindex'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/f/web/wap/activeindex'
+    'SCRIPT_NAME' => '/f/web/index.php'
+    'PHP_SELF' => '/f/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1525095492.942
+    'REQUEST_TIME' => 1525095492
+]

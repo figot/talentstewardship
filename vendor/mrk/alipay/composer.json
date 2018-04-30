@@ -1,0 +1,22 @@
+{
+    "name": "mrk/alipay",
+    "description": "alipay h5 app web",
+    "keywords": ["h5Pay","appPay","webPay", "aliPay"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "MrK",
+            "email": "1042080686@qq.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "PHP": ">= 5.5"
+    },
+	"autoload": {
+        "psr-4": {
+            "mrk\\" : "src/"
+        }
+    }
+}
