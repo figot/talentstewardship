@@ -42,7 +42,6 @@ class UserdepartmapController extends Controller
     {
         $searchModel = new Userdepartmap();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        \Yii::warning('===================' . var_export($dataProvider, true));
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

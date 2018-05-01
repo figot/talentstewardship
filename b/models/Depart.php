@@ -62,7 +62,7 @@ class Depart extends ActiveRecord
         $areaconf = array();
         $area = Depart::find()->select(['department'])->asArray()->all();
         foreach ($area as $key => $value) {
-            $areaconf = array_merge($areaconf, array($value['department'] => $value['department']));
+            $areaconf[$value['department']] = $value['department'];
         }
         return $areaconf;
     }
@@ -73,7 +73,7 @@ class Depart extends ActiveRecord
         $areaconf = array();
         $area = Depart::find()->select(['subdepart'])->asArray()->all();
         foreach ($area as $key => $value) {
-            $areaconf = array_merge($areaconf, array($value['subdepart'] => $value['subdepart']));
+            $areaconf[$value['subdepart']] = $value['subdepart'];
         }
         return $areaconf;
     }
@@ -84,7 +84,7 @@ class Depart extends ActiveRecord
         $areaconf = array();
         $area = Depart::find()->select(['id', 'subdepart'])->asArray()->all();
         foreach ($area as $key => $value) {
-            $areaconf = array_merge($areaconf, array($value['id'] => $value['subdepart']));
+            $areaconf[$value['id']] = $value['subdepart'];
         }
         return $areaconf;
     }

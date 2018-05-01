@@ -48,8 +48,8 @@ class Welfare extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'brief', 'content', 'treattype', 'url', 'looktype', 'status'], 'trim'],
-            [['title', 'content', 'treattype', 'looktype', 'treatlevel'], 'required'],
+            [['title', 'brief', 'content', 'treattype', 'url', 'looktype', 'status', 'department'], 'trim'],
+            [['title', 'content', 'treattype', 'looktype', 'treatlevel', 'department'], 'required'],
 
             [['treattype', 'looktype', 'treatlevel'], 'integer'],
             [['title','content', 'url' ], 'string'],

@@ -47,6 +47,7 @@ class Userdepartmap extends ActiveRecord
         return [
             [['user_id', 'subdepartid'], 'trim'],
             [['user_id', 'subdepartid'], 'required'],
+            [['user_id'], 'unique', 'message' => '该用户已经有了从属机构，请先删除']
         ];
     }
 
