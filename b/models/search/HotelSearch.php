@@ -41,6 +41,8 @@ class HotelSearch extends Hotel
         $hotemanage = Hotelmanage::find()->where(['user_id' => \Yii::$app->user->identity->id])->asArray()->one();
         if ($hotemanage['isroot'] == 1) {
             $query = Hotel::find();
+        } else if($hotemanage['isroot'] == 3) {
+            $query = Hotel::find()->andwhere(['like', 'area', $hotemanage['hotelarea']]);
         } else {
             $query = Hotel::find()->where(['id' => $hotemanage['hotelid']]);
         }

@@ -28,6 +28,8 @@ return [
         'NOT_TALENT_INFO' => 21,
         'EMPTY_VCODE' => 22,
         'VCODE_ERROR' => 23,
+        'RCODE_ERROR' => 24,
+        'TALENT_LEVEL_NOT_MATCH_HOTEL' => 25,
     ),
     'ErrMsg' => array(
         'SUCCESS'   => '成功',
@@ -54,6 +56,8 @@ return [
         'NOT_TALENT_INFO' => '你没有提交个人详细信息、教育、学历信息, 请先到个人中心提交',
         'EMPTY_VCODE' => '学信网学历或学籍在线验证码为空,请到学信网查询填写',
         'VCODE_ERROR' => '学信网在线学籍验证码错误',
+        'RCODE_ERROR' => '学信网在线学历验证码错误',
+        'TALENT_LEVEL_NOT_MATCH_HOTEL' => '你不是该酒店适用的人才级别,请选择其他酒店',
     ),
     'policy.default' => array(
         'pn' => 0,

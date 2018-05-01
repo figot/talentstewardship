@@ -78,6 +78,7 @@ class TalentapplyController extends Controller
         if ($model->load(Yii::$app->getRequest()->post())) {
             $talent->category = $talentcategory->talentlevel;
             $talent->authstatus = $model->applystatus;
+            $talent->catestatus = \Yii::$app->params['talent.catestatus']['talentauth'];
             if ($model->save() && $talent->save()) {
                 return $this->redirect(['index', 'talentcategoryid' => $model->talentcategoryid]);
             }

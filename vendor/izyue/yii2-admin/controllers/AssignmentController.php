@@ -2,7 +2,6 @@
 
 namespace izyue\admin\controllers;
 
-use backend\models\SignupForm;
 use izyue\admin\components\MenuHelper;
 use Yii;
 use izyue\admin\models\searchs\Assignment as AssignmentSearch;
@@ -280,9 +279,8 @@ class AssignmentController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        MenuHelper::invalidate();
-
+        $model = $this->findModel($id);
+        $model->delete();
         return $this->redirect(['index']);
     }
 

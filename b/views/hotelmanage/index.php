@@ -25,6 +25,9 @@ $this->registerCssFile('@web/statics/assets/data-tables/DT_bootstrap.css', ['dep
                     <div class="btn-group">
                         <?= Html::a('设置酒店超级管理用户'.' <i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-success', 'style' => 'margin-bottom:15px;']) ?>
                     </div>
+                    <div class="btn-group">
+                        <?= Html::a('设置酒店区域管理用户'.' <i class="fa fa-plus"></i>', ['createg'], ['class' => 'btn btn-success', 'style' => 'margin-bottom:15px;']) ?>
+                    </div>
                 </div>
                 <div class="space15"></div>
                 <?=
@@ -54,15 +57,19 @@ $this->registerCssFile('@web/statics/assets/data-tables/DT_bootstrap.css', ['dep
                             'label' => '用户',
                         ],
                         [
-                            'attribute' => 'hotelname',
-                            'label' => '酒店',
-                        ],
-                        [
                             'attribute'=> 'isroot',
                             'label'=>'权限级别',
                             'value'=> function($model){
                                 return Yii::$app->params['hotel.rootlevel'][$model->isroot];
                             },
+                        ],
+                        [
+                            'attribute' => 'hotelname',
+                            'label' => '酒店',
+                        ],
+                        [
+                            'attribute' => 'hotelarea',
+                            'label' => '管理区域',
                         ],
                         [
                             'class' => 'yii\grid\ActionColumn',

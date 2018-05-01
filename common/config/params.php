@@ -200,6 +200,7 @@ return [
     'hotel.rootlevel' => [
         1 => '所有酒店管理',
         2 => '当前酒店管理',
+        3 => '酒店区域管理',
     ],
     'version.ostype' => [
         'android' => 'android',
@@ -261,6 +262,10 @@ return [
         '本科' => '本科',
         '专科' => '专科',
         '专科以下' => '专科以下',
+    ],
+    'talent.authmethod' => [
+        1 => '学历自动认证',
+        2 => '人才后台认证',
     ],
     'talent.devicetype' => [
         ['name' => '生物医药', 'ordertype' => 1],

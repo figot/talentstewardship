@@ -21,6 +21,7 @@ use app\models\Project;
 use app\models\Projectapply;
 use app\models\ValidCheck;
 use app\models\Educationlevelconf;
+use app\models\TalentCategory;
 
 class MyController extends ActiveController
 {
@@ -149,13 +150,16 @@ class MyController extends ActiveController
         );
 
         if (!empty($talentinfo)) {
-            $arrRes['category'] = $talentinfo->category;
             $arrRes['authstatus'] = $talentinfo->authstatus;
-            if ($talentinfo->catestatus == \Yii::$app->params['talent.catestatus']['eduauth']) {
-                $pretalent = Educationlevelconf::find()->where(['educate' => $talentinfo->maxdegree])->one();
-                $arrRes['category'] = $pretalent['talentlevel'];
-            } else if ($arrRes['catestatus'] == \Yii::$app->params['talent.catestatus']['talentauth']) {
-
+            $edu = array();
+            $pretalent = TalentCategory::find(['id', 'educate', 'talentlevel'])->where(['authmethod' => \Yii::$app->params['talent.catestatus']['eduauth']])->asArray()->all();
+            foreach ($pretalent as $v) {
+                $edu[$v['id']] = $v['talentlevel'];
+            }
+            if (isset($edu[$talentinfo->category])) {
+                $arrRes['category'] = $edu[$talentinfo->category];
+            } else {
+                $arrRes['category'] = '';
             }
         }
 

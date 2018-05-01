@@ -24,6 +24,7 @@ use app\models\Talentactiveindex;
 use app\models\Upload;
 use app\models\Educationlevelconf;
 use app\models\Talentapply;
+use app\models\TalentCategory;
 
 class TalentController extends ActiveController {
     public $modelClass = 'app\models\User';
@@ -91,11 +92,15 @@ class TalentController extends ActiveController {
             $arrRes['portraitsign'] = $arrRes['portrait'];
             $arrRes['portrait'] = \Yii::$app->request->getHostInfo() . '/image/app/' . $arrRes['portrait'];
         }
-        if ($arrRes['catestatus'] == \Yii::$app->params['talent.catestatus']['eduauth']) {
-            $pretalent = Educationlevelconf::find()->where(['educate' => $arrRes['maxdegree']])->one();
-            $arrRes['category'] = $pretalent['talentlevel'];
-        } else if ($arrRes['catestatus'] == \Yii::$app->params['talent.catestatus']['talentauth']) {
-
+        $edu = array();
+        $pretalent = TalentCategory::find(['id', 'educate', 'talentlevel'])->where(['authmethod' => \Yii::$app->params['talent.catestatus']['eduauth']])->asArray()->all();
+        foreach ($pretalent as $v) {
+            $edu[$v['id']] = $v['talentlevel'];
+        }
+        if (isset($edu[$arrRes['category']])) {
+            $arrRes['category'] = $edu[$arrRes['category']];
+        } else {
+            $arrRes['category'] = '';
         }
         return $this->_buildReturn(\Yii::$app->params['ErrCode']['SUCCESS'], \Yii::$app->params['ErrMsg']['SUCCESS'], $arrRes);
     }
@@ -153,6 +158,31 @@ class TalentController extends ActiveController {
                 }
             }
             $arrReq['degreereport'] = $eduAuthResult;
+        } else if (!empty($arrReq['rcode'])) {
+            $curl = new curl\Curl();
+            $response = $curl->get("http://www.chsi.com.cn/xlcx/bg.do?vcode=" . trim($arrReq['rcode']) . "&srcid=bgcx");
+            $response = HtmlPurifier::process($response);
+            $regex1="/<td><span.*>(.*)<\/span><\/td>/isU";
+            $regresult = preg_match_all($regex1,$response,$match, PREG_PATTERN_ORDER);
+            //学历和学籍网页写法不一样
+            if (empty($regresult)) {
+                return $this->_buildReturn(\Yii::$app->params['ErrCode']['VCODE_ERROR'], \Yii::$app->params['ErrMsg']['VCODE_ERROR']);
+            } else {
+                if (isset($match[0][6])) {
+                    $arrReq['school'] = strip_tags($match[0][6]);
+                }
+                if (isset($match[0][5])) {
+                    $arrReq['degree'] = strip_tags($match[0][5]);
+                }
+                if (isset($match[0][8])) {
+                    $arrReq['institute'] = strip_tags($match[0][8]);
+                }
+                if (isset($match[0][3])) {
+                    $arrReq['graduation_year'] = trim(strip_tags($match[0][3]));
+                }
+            }
+            $arrReq['degreereport'] = $response;
+            $arrReq['vcode'] = $arrReq['rcode'];
         } else {
             return $this->_buildReturn(\Yii::$app->params['ErrCode']['EMPTY_VCODE'], \Yii::$app->params['ErrMsg']['EMPTY_VCODE']);
         }

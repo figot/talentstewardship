@@ -13,7 +13,7 @@ $this->title = Yii::t('rbac-admin', 'Menus');
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->registerCssFile("@web/statics/assets/fuelux/css/tree-style.css");
-$this->registerJsFile("@web/statics/assets/fuelux/js/tree.min.js", ['depends'=>'backend\assets\AppAsset']);
+$this->registerJsFile("@web/statics/assets/fuelux/js/tree.min.js", ['depends'=>'b\assets\AppAsset']);
 
 $this->registerJs($this->render('@app/web/statics/js/tree.js', ['web' => Yii::getAlias('@web')]));
 

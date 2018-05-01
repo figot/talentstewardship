@@ -7,6 +7,8 @@ CREATE TABLE `talentcategory` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `talentlevel` varchar(4096) DEFAULT NULL COMMENT '人才级别',
   `talentcondition` text NOT NULL COMMENT '人才条件',
+  `authmethod` tinyint(6) unsigned NOT NULL DEFAULT 2 COMMENT '状态，1学历自动认证,2人才后台认证',
+  `educate` varchar(255) NULL COMMENT '教育级别',
   `isshow` tinyint(6) unsigned NOT NULL DEFAULT 1 COMMENT '状态，隐藏1,公开展示2',
   `status` tinyint(6) unsigned NOT NULL DEFAULT 0 COMMENT '',
   `created_at` bigint NOT NULL DEFAULT 0 COMMENT '创建时间',

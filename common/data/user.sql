@@ -56,7 +56,7 @@ CREATE TABLE `talentinfo` (
   `portrait` text DEFAULT NULL COMMENT '头像',
   `good_fields` varchar(511) DEFAULT NULL COMMENT '擅长领域',
   `authstatus` tinyint(6) unsigned NOT NULL DEFAULT 2 COMMENT '人才认证状态, 1未认证, 2认证中, 3认证失败, 4认证成功',
-  `category` varchar(255) NULL COMMENT '人才级别',
+  `category` bigint NULL COMMENT '人才级别',
   `catestatus` varchar(255) NULL COMMENT '人才级别状态, 1学历自动认证状态，2人才后台认证',
   `status` tinyint(6) unsigned NOT NULL DEFAULT 1 COMMENT '状态，公开1、隐藏2',
   `isshow` tinyint(6) unsigned NOT NULL DEFAULT 1 COMMENT '状态，隐藏1、公开展示2、',

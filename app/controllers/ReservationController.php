@@ -3,6 +3,7 @@ namespace app\controllers;
 
 use app\models\Reservation;
 use app\models\Talentinfo;
+use b\models\Hotel;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
@@ -55,6 +56,10 @@ class ReservationController extends ActiveController
         $talent = Talentinfo::find()->where(['user_id' => $this->userId])->one();
         if ($talent['authstatus'] != \Yii::$app->params['talent.authstatus']['authsuccess']) {
             return $this->_buildReturn(\Yii::$app->params['ErrCode']['NOT_AUTH_SUCCESS'], \Yii::$app->params['ErrMsg']['NOT_AUTH_SUCCESS']);
+        }
+        $hotel = Hotel::find()->where(['id' => $arrReq['hotelid']])->one();
+        if (strpos($hotel['suitper'], $talent['category']) === false) {
+            return $this->_buildReturn(\Yii::$app->params['ErrCode']['TALENT_LEVEL_NOT_MATCH_HOTEL'], \Yii::$app->params['ErrMsg']['TALENT_LEVEL_NOT_MATCH_HOTEL']);
         }
         if ($reserve->validate()) {
             $model = $reserve->saveData($this->userId);

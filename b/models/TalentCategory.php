@@ -43,7 +43,7 @@ class TalentCategory extends ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'talentlevel', 'talentcondition', 'status'], 'trim'],
+            [['id', 'talentlevel', 'talentcondition', 'status', 'educate', 'authmethod'], 'trim'],
         ];
     }
 
@@ -59,6 +59,8 @@ class TalentCategory extends ActiveRecord
             'content' => '详细内容',
             'isshow' => '是否展示',
             'status' => '审核状态',
+            'educate' => '学位',
+            'authmethod' => '认证方式',
         ];
     }
     /**

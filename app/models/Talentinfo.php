@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use app\models\TalentCategory;
 
 use app\models\Talentcard;
 use app\models\Experience;
@@ -136,9 +137,9 @@ class Talentinfo extends ActiveRecord
     public function saveMaxDegree($id, $degree) {
         $this->user_id = $id;
         $edu = array();
-        $pretalent = Educationlevelconf::find()->asArray()->all();
+        $pretalent = TalentCategory::find(['id', 'educate', 'talentlevel'])->where(['authmethod' => \Yii::$app->params['talent.catestatus']['eduauth']])->asArray()->all();
         foreach ($pretalent as $v) {
-            $edu[$v['educate']] = $v['talentlevel'];
+            $edu[$v['educate']] = $v['id'];
         }
         $talent = Talentinfo::findIdentity($this->user_id);
         if ($talent !== null) {
@@ -147,25 +148,25 @@ class Talentinfo extends ActiveRecord
                 if (isset($edu[$degree])) {
                     $talent->category = $edu[$degree];
                 }
-                $talent->catestatus = 1;
+                $talent->catestatus = \Yii::$app->params['talent.catestatus']['eduauth'];
                 $talent->authstatus = \Yii::$app->params['talent.authstatus']['authsuccess'];
             } else if ($degree == '硕士') {
                 if (isset($edu[$degree])) {
                     $talent->category = $edu[$degree];
                 }
-                $talent->catestatus = 1;
+                $talent->catestatus = \Yii::$app->params['talent.catestatus']['eduauth'];
                 $talent->authstatus = \Yii::$app->params['talent.authstatus']['authsuccess'];
             } else if ($degree == '本科') {
                 if (isset($edu[$degree])) {
                     $talent->category = $edu[$degree];
                 }
-                $talent->catestatus = 1;
+                $talent->catestatus = \Yii::$app->params['talent.catestatus']['eduauth'];
                 $talent->authstatus = \Yii::$app->params['talent.authstatus']['authsuccess'];
             } else if ($degree == '专科') {
                 if (isset($edu[$degree])) {
                     $talent->category = $edu[$degree];
                 }
-                $talent->catestatus = 1;
+                $talent->catestatus = \Yii::$app->params['talent.catestatus']['eduauth'];
                 $talent->authstatus = \Yii::$app->params['talent.authstatus']['authsuccess'];
             }
             else {

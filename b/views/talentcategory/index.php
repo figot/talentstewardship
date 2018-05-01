@@ -51,6 +51,13 @@ $this->registerCssFile('@web/statics/assets/data-tables/DT_bootstrap.css', ['dep
                             'label' => '人才级别',
                         ],
                         [
+                            'attribute' => 'authmethod',
+                            'value' => function($model){
+                                return Yii::$app->params['talent.authmethod'][$model->authmethod];
+                            },
+                            'label' => '认证方式',
+                        ],
+                        [
                             'attribute'=>'templatefile',
                             'label' => '材料模板',
                             'format' => 'raw',

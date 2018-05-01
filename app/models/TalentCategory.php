@@ -59,7 +59,7 @@ class TalentCategory extends ActiveRecord
      */
     public function get($rn, $pn, $uid)
     {
-        $query = TalentCategory::find()->where(['status' => 2])
+        $query = TalentCategory::find()->where(['status' => 2, 'authmethod' => \Yii::$app->params['talent.catestatus']['talentauth']])
             ->select(['id', 'talentlevel', 'talentcondition']);
 
         $count = $query->count();

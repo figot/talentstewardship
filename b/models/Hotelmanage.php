@@ -19,6 +19,7 @@ class Hotelmanage extends \yii\db\ActiveRecord
 {
     public $hotel;
     public $user;
+    public $hotelarealist;
     /**
      * @inheritdoc
      */
@@ -33,7 +34,7 @@ class Hotelmanage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'hotelid', 'isroot'], 'trim'],
+            [['user_id', 'hotelid', 'isroot', 'hotelarea', 'hotelarealist'], 'trim'],
             [['user_id'], 'required'],
         ];
     }
@@ -54,17 +55,46 @@ class Hotelmanage extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Hotel::className(), ['id' => 'hotelid']);
     }
+    /**
+     * @inheritdoc
+     */
+    public function saveData($id) {
+        $hotelmanage = Hotelmanage::find()->where(['user_id' => $id])->one();
+        if ($hotelmanage !== null) {
+            $eid = $hotelmanage->id;
+            $hotelmanage->attributes = $this->attributes;
+            $hotelmanage->id = $eid;
+            if (!$hotelmanage->save(false)) {
+                throw new \Exception();
+            }
+        } else {
+            if (!$this->save(false)) {
+                throw new \Exception();
+            }
+        }
+        return true;
+    }
 
     /**
      *
      * @return
      */
-    public function search()
+    public function search($params)
     {
         $query = Hotelmanage::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'user_id' => $this->id,
         ]);
 
         return $dataProvider;
@@ -111,6 +141,14 @@ class Hotelmanage extends \yii\db\ActiveRecord
             'user_id' => '用户',
             'hotelid' => '酒店',
             'isroot' => '酒店用户/市委管理员',
+            'hotelarealist' => '酒店区域列表',
         ];
+    }
+    /**
+     * @inheritdoc
+     */
+    public function afterFind() {
+        parent::afterFind();
+        $this->hotelarealist = explode(',', $this->hotelarea);
     }
 }

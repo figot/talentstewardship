@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 $this->title = Yii::t('common', 'TalentLevelConf');
+$degree = \Yii::$app->params['talent.education.degreename'];
 
 ?>
 
@@ -48,6 +49,32 @@ $this->title = Yii::t('common', 'TalentLevelConf');
                     'rows'=> 3,
                     'class' => 'form-control',
                 ]) ?>
+
+                <?= $form->field($model, 'educate', [
+                    'labelOptions' => ['class'=>'col-lg-2 control-label'],
+                    'template' => '
+                                {label}
+                                <div class="col-lg-10">
+                                {input}
+                                {error}
+                                </div>
+                                ',
+                ])->dropDownList($degree, [
+                    'prompt' => '通过学历自动认证人才，此处需要选择学历,人才后台认证不用选择',
+                    'class' => 'form-control',
+                ]) ?>
+
+                <? $model->authmethod = 2 ?>
+                <?= $form->field($model, 'authmethod', [
+                    'labelOptions' => ['class'=>'col-lg-2 control-label'],
+                    'template' => '
+                            {label}
+                            <div class="col-lg-10">
+                            {input}
+                            {error}
+                            </div>
+                            ',
+                ])->radioList(['1' =>'学历自动认证', '2' =>'人才后台认证']) ?>
 
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
