@@ -4,8 +4,6 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
-$degree = \Yii::$app->params['talent.education.degreename'];
-
 ?>
 
 <!-- page start-->
@@ -22,7 +20,7 @@ $degree = \Yii::$app->params['talent.education.degreename'];
                     ]
                 ]); ?>
 
-                <?= $form->field($model, 'educate', [
+                <?= $form->field($model, 'user_id', [
                     'labelOptions' => ['class'=>'col-lg-2 control-label'],
                     'template' => '
                                 {label}
@@ -31,22 +29,21 @@ $degree = \Yii::$app->params['talent.education.degreename'];
                                 {error}
                                 </div>
                                 ',
-                ])->dropDownList($degree, [
-                    'prompt' => '选择系统类型',
+                ])->dropDownList($user, [
                     'class' => 'form-control',
                 ]) ?>
 
-                <?= $form->field($model, 'talentlevel', [
+                <?= $form->field($model, 'subdepartid', [
                     'labelOptions' => ['class'=>'col-lg-2 control-label'],
                     'template' => '
-                            {label}
-                            <div class="col-lg-10">
-                            {input}
-                            {error}
-                            </div>
-                            ',
-                ])->textInput([
-                    'maxlength' => 64,
+                                {label}
+                                <div class="col-lg-10">
+                                {input}
+                                {error}
+                                </div>
+                                ',
+                ])->dropDownList($department, [
+                    'prompt' => '选择审核部门',
                     'class' => 'form-control',
                 ]) ?>
 

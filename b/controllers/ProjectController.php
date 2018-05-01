@@ -2,6 +2,7 @@
 namespace b\controllers;
 
 use b\models\Depart;
+use b\models\Userdepartmap;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -16,6 +17,9 @@ use yii\helpers\Url;
  */
 class ProjectController extends Controller
 {
+    public $user = null;
+    public $userId = null;
+
     public function init()
     {
         /* 判断是否登录 */
@@ -23,6 +27,8 @@ class ProjectController extends Controller
             $this->redirect(Url::toRoute(['/site/login']));
             Yii::$app->end();
         }
+        $this->user = \yii::$app->user->identity;
+        $this->userId = \Yii::$app->user->id;
     }
 
     /**
@@ -49,7 +55,13 @@ class ProjectController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProjectSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $userauth = Userdepartmap::find()->where(['user_id' => $this->userId])->one();
+        if (isset($userauth->subdepartid)) {
+            $departid = $userauth->subdepartid;
+        } else {
+            $departid = null;
+        }
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $departid);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

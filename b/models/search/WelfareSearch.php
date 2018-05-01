@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use b\models\Welfare;
+use b\models\Depart;
 
 /**
  *
@@ -34,9 +35,18 @@ class WelfareSearch extends Welfare
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $departid=null)
     {
-        $query = Welfare::find();
+        $departname = null;
+        if ($departid) {
+            $depart = Depart::find()->where(['id' => $departid])->one();
+            $departname = $depart->subdepart;
+        }
+        if ($departname) {
+            $query = Welfare::find()->where(['department' => $departname]);
+        } else {
+            $query = Welfare::find();
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

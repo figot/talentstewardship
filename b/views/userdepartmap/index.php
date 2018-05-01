@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
 
-$this->title = '准人才配置';
+$this->title = '用户与机构配置';
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerCssFile('@web/statics/assets/data-tables/DT_bootstrap.css', ['depends'=>'b\assets\AppAsset']);
 
@@ -48,12 +48,14 @@ $this->registerCssFile('@web/statics/assets/data-tables/DT_bootstrap.css', ['dep
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         [
-                            'attribute' => 'educate',
-                            'label' => '学历',
+                            'attribute' => 'username',
+                            'value' => 'admin.username',
+                            'label' => '用户名称',
                         ],
                         [
-                            'attribute'=> 'talentlevel',
-                            'label' => '准人才名称',
+                            'attribute' => 'subdepart',
+                            'value' => 'depart.subdepart',
+                            'label' => '所属机构',
                         ],
                         [
                             'class' => 'yii\grid\ActionColumn',

@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use b\models\Needs;
+use b\models\Depart;
 
 /**
  *
@@ -34,9 +35,18 @@ class NeedsSearch extends Needs
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $departid=null)
     {
-        $query = Needs::find();
+        $departname = null;
+        if ($departid) {
+            $depart = Depart::find()->where(['id' => $departid])->one();
+            $departname = $depart->subdepart;
+        }
+        if ($departname) {
+            $query = Needs::find()->where(['department' => $departname]);
+        } else {
+            $query = Needs::find();
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

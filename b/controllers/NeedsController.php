@@ -12,12 +12,16 @@ use yii\web\NotFoundHttpException;
 use yii\helpers\Url;
 use kartik\mpdf\Pdf;
 use yii\data\ActiveDataProvider;
+use b\models\Userdepartmap;
 
 /**
  * 资讯
  */
 class NeedsController extends Controller
 {
+    public $user = null;
+    public $userId = null;
+
     public function init()
     {
         /* 判断是否登录 */
@@ -25,6 +29,8 @@ class NeedsController extends Controller
             $this->redirect(Url::toRoute(['/site/login']));
             Yii::$app->end();
         }
+        $this->user = \yii::$app->user->identity;
+        $this->userId = \Yii::$app->user->id;
     }
 
     /**
@@ -44,7 +50,13 @@ class NeedsController extends Controller
     public function actionIndex()
     {
         $searchModel = new NeedsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $userauth = Userdepartmap::find()->where(['user_id' => $this->userId])->one();
+        if (isset($userauth->subdepartid)) {
+            $departid = $userauth->subdepartid;
+        } else {
+            $departid = null;
+        }
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $departid);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

@@ -11,12 +11,16 @@ use b\models\Depart;
 use b\models\search\WelfareSearch;
 use yii\web\NotFoundHttpException;
 use yii\helpers\Url;
+use b\models\Userdepartmap;
 
 /**
  * 待遇享受
  */
 class WelfareController extends Controller
 {
+    public $user = null;
+    public $userId = null;
+
     public function init()
     {
         /* 判断是否登录 */
@@ -24,6 +28,8 @@ class WelfareController extends Controller
             $this->redirect(Url::toRoute(['/site/login']));
             Yii::$app->end();
         }
+        $this->user = \yii::$app->user->identity;
+        $this->userId = \Yii::$app->user->id;
     }
 
     /**
@@ -50,7 +56,13 @@ class WelfareController extends Controller
     public function actionIndex()
     {
         $searchModel = new WelfareSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $userauth = Userdepartmap::find()->where(['user_id' => $this->userId])->one();
+        if (isset($userauth->subdepartid)) {
+            $departid = $userauth->subdepartid;
+        } else {
+            $departid = null;
+        }
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $departid);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

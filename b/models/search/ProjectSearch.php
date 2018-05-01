@@ -2,6 +2,7 @@
 
 namespace b\models\search;
 
+use b\models\Depart;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -34,10 +35,18 @@ class ProjectSearch extends Project
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $departid=null)
     {
-        $query = Project::find();
-
+        $departname = null;
+        if ($departid) {
+            $depart = Depart::find()->where(['id' => $departid])->one();
+            $departname = $depart->subdepart;
+        }
+        if ($departname) {
+            $query = Project::find()->where(['department' => $departname]);
+        } else {
+            $query = Project::find();
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

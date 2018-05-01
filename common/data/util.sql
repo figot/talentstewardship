@@ -2,14 +2,15 @@
 
 #use talent;
 
-DROP TABLE IF EXISTS `educationlevelconf`;
-CREATE TABLE `educationlevelconf` (
+DROP TABLE IF EXISTS `userdepartmap`;
+CREATE TABLE `userdepartmap` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `educate` varchar(255) NOT NULL COMMENT '教育级别',
-  `talentlevel` varchar(500) DEFAULT NULL COMMENT '人才级别名称',
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户id',
+  `subdepartid` int(10) unsigned NOT NULL COMMENT '二级区域id',
   `created_at` bigint NOT NULL DEFAULT 0 COMMENT '创建时间',
   `updated_at` bigint NOT NULL DEFAULT 0 COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `departmenu`;

@@ -1,18 +1,19 @@
 <?php
 namespace b\controllers;
 
-use b\models\Educationlevelconf;
+use b\models\Userdepartmap;
 use Yii;
 use yii\web\Controller;
 use b\models\Version;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\helpers\Url;
+use b\models\Depart;
 
 /**
- * 教育级别配置
+ * 用户与机构的配置
  */
-class EducationlevelconfController extends Controller
+class UserdepartmapController extends Controller
 {
     public function init()
     {
@@ -39,8 +40,9 @@ class EducationlevelconfController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new Educationlevelconf();
+        $searchModel = new Userdepartmap();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        \Yii::warning('===================' . var_export($dataProvider, true));
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -51,11 +53,13 @@ class EducationlevelconfController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Educationlevelconf();
+        $model = new Userdepartmap();
+        $user = Userdepartmap::getUserinfo();
+        $department = Depart::getSecondDepartsById();
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
-            return $this->render('create', ['model' => $model]);
+            return $this->render('create', ['model' => $model, 'department' => $department, 'user' => $user]);
         }
     }
     /**
@@ -64,11 +68,13 @@ class EducationlevelconfController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $user = Userdepartmap::getUserinfo();
+        $department = Depart::getSecondDepartsById();
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
 
-        return $this->render('update', ['model' => $model]);
+        return $this->render('update', ['model' => $model, 'department' => $department, 'user' => $user]);
     }
     /**
      * @brief 删除
@@ -85,9 +91,9 @@ class EducationlevelconfController extends Controller
     protected function findModel($id)
     {
         if ($id == 0) {
-            return new Educationlevelconf();
+            return new Userdepartmap();
         }
-        if (($model = Educationlevelconf::findOne($id)) !== null) {
+        if (($model = Userdepartmap::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -77,4 +77,15 @@ class Depart extends ActiveRecord
         }
         return $areaconf;
     }
+    /**
+     * @inheritdoc
+     */
+    public static function getSecondDepartsById() {
+        $areaconf = array();
+        $area = Depart::find()->select(['id', 'subdepart'])->asArray()->all();
+        foreach ($area as $key => $value) {
+            $areaconf = array_merge($areaconf, array($value['id'] => $value['subdepart']));
+        }
+        return $areaconf;
+    }
 }
