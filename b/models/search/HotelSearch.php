@@ -42,7 +42,12 @@ class HotelSearch extends Hotel
         if ($hotemanage['isroot'] == 1) {
             $query = Hotel::find();
         } else if($hotemanage['isroot'] == 3) {
-            $query = Hotel::find()->andwhere(['like', 'area', $hotemanage['hotelarea']]);
+            if (!empty($hotemanage['hotelarea'])) {
+                $areas = explode(',', $hotemanage['hotelarea']);
+            }
+            if (isset($areas)) {
+                $query = Hotel::find()->where(['in', 'area', $areas]);
+            }
         } else {
             $query = Hotel::find()->where(['id' => $hotemanage['hotelid']]);
         }

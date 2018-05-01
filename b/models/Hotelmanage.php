@@ -34,7 +34,7 @@ class Hotelmanage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'hotelid', 'isroot', 'hotelarea', 'hotelarealist'], 'trim'],
+            [['user_id', 'hotelid', 'isroot', 'hotelarea'], 'trim'],
             [['user_id'], 'required'],
         ];
     }

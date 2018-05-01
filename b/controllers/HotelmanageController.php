@@ -114,7 +114,9 @@ class HotelmanageController extends Controller
             if (Hotelmanage::find()->where(['user_id' => $model->user_id])->one()) {
                 return $this->render('createg', ['model' => $model, 'user' => $user, 'areaconf' => $areaconf]);
             }
-            $model->hotelarea = implode(',', array_values($arrData['Hotelmanage']['hotelarealist']));
+            if (!empty($arrData['Hotelmanage']['hotelarealist'])) {
+                $model->hotelarea = implode(',', array_values($arrData['Hotelmanage']['hotelarealist']));
+            }
             if ($model->save()) {
                 return $this->redirect(['index']);
             }
