@@ -97,8 +97,6 @@ class Scenic extends ActiveRecord
             if (empty($arrReq['latitude'])) {
                 $arrReq['longitude'] = 0;
             }
-            //$model[$key]['distance'] = intval(sqrt(pow(intval($value['latitude']) - intval($arrReq['latitude']), 2) + pow(intval($value['longitude']) - intval($arrReq['longitude']), 2)));
-            //$model[$key]['distance'] = sqrt(pow($this->latitude - $arrReq['latitude'], 2) + pow($this->longitude - $arrReq['longitude'], 2));
             $model[$key]['distance'] = self::longlatToDistance($value['longitude'], $value['latitude'], $arrReq['longitude'], $arrReq['latitude']);
             $model[$key]['url'] = $value['url'] . $value['id'];
         }
