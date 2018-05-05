@@ -35,18 +35,17 @@ class ProjectSearch extends Project
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $departid=null)
+    public function search($params, $departid=null, $isroot=null)
     {
-        $departname = null;
-        if ($departid) {
+        if ($departid && $isroot == \Yii::$app->params['adminuser.rootlevelstatus']['subroot']) {
             $depart = Depart::find()->where(['id' => $departid])->one();
-            $departname = $depart->subdepart;
-        }
-        if ($departname) {
-            $query = Project::find()->where(['department' => $departname]);
-        } else {
+            $query = Project::find()->where(['department' => $depart->subdepart]);
+        } else if ($isroot == \Yii::$app->params['adminuser.rootlevelstatus']['root']) {
             $query = Project::find();
+        } else {
+            $query = Project::find()->where(['id' => -1]);
         }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

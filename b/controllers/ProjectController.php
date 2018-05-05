@@ -56,12 +56,11 @@ class ProjectController extends Controller
     {
         $searchModel = new ProjectSearch();
         $userauth = Userdepartmap::find()->where(['user_id' => $this->userId])->one();
-        if (isset($userauth->subdepartid)) {
-            $departid = $userauth->subdepartid;
+        if (!empty($userauth)) {
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $userauth->subdepartid, $userauth->isroot);
         } else {
-            $departid = null;
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         }
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $departid);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

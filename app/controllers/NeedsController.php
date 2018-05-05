@@ -11,6 +11,7 @@ use yii\web\Response;
 use yii\helpers\ArrayHelper;
 use app\models\Needs;
 use app\models\Talentinfo;
+use app\models\Adminmessage;
 
 class NeedsController extends ActiveController {
     public $modelClass = 'app\models\User';
@@ -54,7 +55,6 @@ class NeedsController extends ActiveController {
             return $this->_buildReturn(\Yii::$app->params['ErrCode']['NOT_TALENT_INFO'], \Yii::$app->params['ErrMsg']['NOT_TALENT_INFO']);
         }
         $needs = new Needs();
-        $needsfile = new NeedsApplyFiles();
         if (isset($arrReq['id'])) {
             $id = intval($arrReq['id']);
         } else {
@@ -69,6 +69,16 @@ class NeedsController extends ActiveController {
                     $applyfiles = new NeedsApplyFiles();
                     $applyfiles->saveImgs($arrReq['applyfile'], $this->userId, $id);
                 }
+                $arrInput = array(
+                    'status' => \Yii::$app->params['adminuser.msgstatus']['unread'],
+                    'title' => '[需求申请]' . $arrReq['title'],
+                    'content' => $arrReq['content'],
+                    'url' => \Yii::$app->params['hostname'] . '/b/web/needs/review?id=' . $id,
+                    'msgtype' => 2,
+                    'department' => $arrReq['subdepart'],
+                    'area' => '',
+                );
+                $this->setAdminMessage($arrInput);
                 return $this->_buildReturn(\Yii::$app->params['ErrCode']['SUCCESS'], \Yii::$app->params['ErrMsg']['SUCCESS']);
             }
         } else {
@@ -80,77 +90,20 @@ class NeedsController extends ActiveController {
      */
     public function actionGetdepart() {
         $departs = Depart::getDeparts();
-//        $departs = array(
-//            0 => array(
-//                'department' => '市委宣传部',
-//                'subdepart' => array(
-//                    "石城县",
-//                    "寻乌县",
-//                    "会昌县",
-//                    "瑞金市（瑞金经开区）",
-//                    "于都县",
-//                    "宁都县",
-//                    "兴国县",
-//                    "定南县",
-//                    "全南县",
-//                    "龙南县（  龙南经开区）",
-//                    "安远县",
-//                    "崇义县",
-//                    "上犹县",
-//                    "大余县",
-//                    "信丰县",
-//                    "赣县区 （赣州高新区）",
-//                    "南康区",
-//                    "章贡区"
-//                ),
-//            ),
-//            1 => array(
-//                'department' => '市委统战部',
-//                'subdepart' => array(
-//                    "石城县",
-//                    "寻乌县",
-//                    "会昌县",
-//                    "瑞金市（瑞金经开区）",
-//                    "于都县",
-//                    "宁都县",
-//                    "兴国县",
-//                    "定南县",
-//                    "全南县",
-//                    "龙南县（  龙南经开区）",
-//                    "安远县",
-//                    "崇义县",
-//                    "上犹县",
-//                    "大余县",
-//                    "信丰县",
-//                    "赣县区 （赣州高新区）",
-//                    "南康区",
-//                    "章贡区"
-//                ),
-//            ),
-//            2 => array(
-//                'department' => '市直机关工委',
-//                'subdepart' => array(
-//                    "石城县",
-//                    "寻乌县",
-//                    "会昌县",
-//                    "瑞金市（瑞金经开区）",
-//                    "于都县",
-//                    "宁都县",
-//                    "兴国县",
-//                    "定南县",
-//                    "全南县",
-//                    "龙南县（  龙南经开区）",
-//                    "安远县",
-//                    "崇义县",
-//                    "上犹县",
-//                    "大余县",
-//                    "信丰县",
-//                    "赣县区 （赣州高新区）",
-//                    "南康区",
-//                    "章贡区"
-//                ),
-//            ),
-//        );
         return $this->_buildReturn(\Yii::$app->params['ErrCode']['SUCCESS'], \Yii::$app->params['ErrMsg']['SUCCESS'], $departs);
+    }
+    /**
+     * @inheritdoc
+     */
+    protected function setAdminMessage($arrInput) {
+        $adminmsg = new Adminmessage();
+        $adminmsg->status = \Yii::$app->params['adminuser.msgstatus']['unread'];
+        $adminmsg->title = $arrInput['title'];
+        $adminmsg->content = $arrInput['content'];
+        $adminmsg->url = $arrInput['url'];
+        $adminmsg->msgtype = $arrInput['msgtype'];
+        $adminmsg->area = $arrInput['area'];
+        $adminmsg->department = $arrInput['department'];
+        $adminmsg->save();
     }
 }

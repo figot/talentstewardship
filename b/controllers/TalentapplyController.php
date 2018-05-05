@@ -76,9 +76,10 @@ class TalentapplyController extends Controller
         }
         $applyfiles = Talentapply::getApplyFiles($model->id, $model->talentcategoryid);
         if ($model->load(Yii::$app->getRequest()->post())) {
-            $talent->category = $talentcategory->talentlevel;
+            $talent->category = $model->talentcategoryid;
             $talent->authstatus = $model->applystatus;
             $talent->catestatus = \Yii::$app->params['talent.catestatus']['talentauth'];
+            \Yii::warning('=================' . var_export($talent->attributes, true));
             if ($model->save() && $talent->save()) {
                 return $this->redirect(['index', 'talentcategoryid' => $model->talentcategoryid]);
             }

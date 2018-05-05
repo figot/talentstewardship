@@ -45,8 +45,8 @@ class Userdepartmap extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'subdepartid'], 'trim'],
-            [['user_id', 'subdepartid'], 'required'],
+            [['user_id', 'subdepartid', 'isroot'], 'trim'],
+            [['user_id', 'isroot'], 'required'],
             [['user_id'], 'unique', 'message' => '该用户已经有了从属机构，请先删除']
         ];
     }

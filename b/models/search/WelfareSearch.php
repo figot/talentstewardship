@@ -35,17 +35,15 @@ class WelfareSearch extends Welfare
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $departid=null)
+    public function search($params, $departid=null, $isroot=null)
     {
-        $departname = null;
-        if ($departid) {
+        if ($departid && $isroot == \Yii::$app->params['adminuser.rootlevelstatus']['subroot']) {
             $depart = Depart::find()->where(['id' => $departid])->one();
-            $departname = $depart->subdepart;
-        }
-        if ($departname) {
-            $query = Welfare::find()->where(['department' => $departname]);
-        } else {
+            $query = Welfare::find()->where(['department' => $depart->subdepart]);
+        } else if ($isroot == \Yii::$app->params['adminuser.rootlevelstatus']['root']) {
             $query = Welfare::find();
+        } else {
+            $query = Welfare::find()->where(['id' => -1]);
         }
 
         $dataProvider = new ActiveDataProvider([

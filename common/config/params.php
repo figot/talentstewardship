@@ -207,9 +207,9 @@ return [
         'ios' => 'ios',
     ],
     'order.hotelcheckstatus' => [
-        1 => '未确认',
-        2 => '确认通过',
-        3 => '确认不通过',
+        1 => '酒店未确认',
+        2 => '酒店确认通过',
+        3 => '酒店确认不通过',
     ],
     'talent.welfarelevel' => [
         0 => '享受类型一',
@@ -287,5 +287,27 @@ return [
         2 => '千人计划',
         3 => '万人计划',
         4 => '海智计划',
+    ],
+    'talent.msgtype' => [
+        1 => '酒店消息',
+        2 => '申报消息',
+    ],
+    'adminuser.rootlevel' => [
+        1 => '所有项目待遇审批查阅权限',
+        2 => '普通管理',
+        3 => '所属机构待遇项目查阅审批权限',
+    ],
+    'adminuser.rootlevelstatus' => [
+        'root' => 1,
+        'current' => 2,
+        'subroot' => 3,
+    ],
+    'adminuser.msgstatus' => [
+        'unread' => 1,
+        'readed' => 2,
+    ],
+    'adminuser.msgstatusname' => [
+        1 => '未读',
+        2 => '已读',
     ],
 ];

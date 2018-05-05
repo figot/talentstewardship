@@ -113,8 +113,15 @@ $this->params['breadcrumbs'][] =  $this->title;
                                         'label' => '金额',
                                     ],
                                     [
+                                        'attribute'=> 'hotelcheckstatus',
+                                        'label'=>'酒店确认状态',
+                                        'value'=> function($model){
+                                            return Yii::$app->params['order.hotelcheckstatus'][$model->hotelcheckstatus];
+                                        },
+                                    ],
+                                    [
                                         'attribute'=> 'status',
-                                        'label'=>'状态',
+                                        'label'=>'入住状态',
                                         'value'=> function($model){
                                             return Yii::$app->params['order.status'][$model->status];
                                         },
@@ -175,24 +182,29 @@ $this->params['breadcrumbs'][] =  $this->title;
 
                     <div class="row">
                         <div class="col-md-6">
-                            <?= $form->field($model, 'hotelcheckstatus', [
-                                'labelOptions' => ['class'=>'col-lg-2 control-label'],
-                                'template' => '
-                            {label}
-                            <div class="col-lg-10">
-                            {input}
-                            {error}
-                            </div>
-                            ',
-                            ])->radioList(['1' =>'酒店未确认', '2' =>'酒店确认通过', '3'=>'酒店确认不通过']) ?>
+                            <? if ($model->hotelcheckstatus == 1) {
+                                echo $form->field($model, 'hotelcheckstatus', [
+                                    'labelOptions' => ['class'=>'col-lg-2 control-label'],
+                                    'template' => '
+                                        {label}
+                                        <div class="col-lg-10">
+                                        {input}
+                                        {error}
+                                        </div>
+                                    ',
+                                ])->radioList(['1' =>'酒店未确认', '2' =>'酒店确认通过', '3'=>'酒店确认不通过']);
+                            }
+                            ?>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-11">
                             <?php
-                            echo Html::submitButton($model->isNewRecord ? Yii::t('common', 'Review') : Yii::t('common', 'Review'), [
-                                'class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-primary'])
+                                if ($model->hotelcheckstatus == 1) {
+                                    echo Html::submitButton($model->isNewRecord ? Yii::t('common', 'Review') : Yii::t('common', 'Review'), [
+                                    'class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-primary']);
+                                }
                             ?>
                         </div>
                     </div>

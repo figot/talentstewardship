@@ -93,7 +93,7 @@ class TalentController extends ActiveController {
             $arrRes['portrait'] = \Yii::$app->request->getHostInfo() . '/image/app/' . $arrRes['portrait'];
         }
         $edu = array();
-        $pretalent = TalentCategory::find(['id', 'educate', 'talentlevel'])->where(['authmethod' => \Yii::$app->params['talent.catestatus']['eduauth']])->asArray()->all();
+        $pretalent = TalentCategory::find(['id', 'educate', 'talentlevel'])->asArray()->all();
         foreach ($pretalent as $v) {
             $edu[$v['id']] = $v['talentlevel'];
         }

@@ -2,6 +2,7 @@
 
 namespace b\models\search;
 
+use app\models\TalentCategory;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -37,6 +38,7 @@ class TalentSearch extends Talent
     public function search($params)
     {
         $query = Talent::find()->Where(['NOT', ['user_name' => '']]);
+        $query->joinWith('talentcategory');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -58,7 +58,7 @@ $this->registerCssFile('@web/statics/assets/data-tables/DT_bootstrap.css', ['dep
                             'label' => '认证状态',
                         ],
                         [
-                            'attribute' => 'category',
+                            'attribute' => 'talentcategory.talentlevel',
                             'label' => '人才级别',
                         ],
                         [

@@ -1,8 +1,7 @@
 <?php
 
-namespace b\models;
+namespace app\models;
 
-use b\models\Depart;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
@@ -68,39 +67,11 @@ class Adminmessage extends ActiveRecord
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $userauth=null, $hotelauth=null)
+    public function search($params)
     {
         $query = Adminmessage::find();
-        if (empty($userauth) && empty($hotelauth)) {
-            $query->orWhere(['id' => -1]);
-        }
-
-        if (!empty($userauth)) {
-            if ($userauth->isroot == \Yii::$app->params['adminuser.rootlevelstatus']['root']) {
-                $query->orWhere(['msgtype' => 2]);
-            } else if ($userauth->isroot == \Yii::$app->params['adminuser.rootlevelstatus']['subroot']) {
-                $depart = Depart::find()->where(['id' => $userauth->subdepartid])->one();
-                $query->orWhere(['and', ['msgtype' => 2], ['department' => $depart->subdepart]]);
-            }
-        }
-
-        if (!empty($hotelauth)) {
-            if ($hotelauth->isroot == \Yii::$app->params['adminuser.rootlevelstatus']['root']) {
-                $query->orWhere(['msgtype' => 1]);
-            } else if ($hotelauth->isroot == \Yii::$app->params['adminuser.rootlevelstatus']['subroot']) {
-                $query->orWhere(['and', ['msgtype' => 1], ['area' => $hotelauth['hotelarea']]]);
-            } else if ($hotelauth->isroot == \Yii::$app->params['adminuser.rootlevelstatus']['current']) {
-                $query->orWhere(['and', ['msgtype' => 1], ['id' => -1]]);
-            }
-        }
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-        ]);
-
-        $query->orderBy([
-            'status' => SORT_ASC,
-            'id'=> SORT_DESC
         ]);
 
         return $dataProvider;

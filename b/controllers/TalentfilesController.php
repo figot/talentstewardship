@@ -101,8 +101,9 @@ class TalentfilesController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->getAuthManager()->remove($model->item);
-        return $this->redirect(['index']);
+        $categoryid = $model->talentcategoryid;
+        $model->delete();
+        return $this->redirect(['index', 'talentcategoryid' => $categoryid]);
     }
     /**
      * @inheritdoc

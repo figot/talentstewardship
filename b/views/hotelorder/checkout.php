@@ -140,6 +140,13 @@ $this->params['breadcrumbs'][] =  $this->title;
                                         'label' => '金额',
                                     ],
                                     [
+                                        'attribute'=> 'hotelcheckstatus',
+                                        'label'=>'酒店确认状态',
+                                        'value'=> function($model){
+                                            return Yii::$app->params['order.hotelcheckstatus'][$model->hotelcheckstatus];
+                                        },
+                                    ],
+                                    [
                                         'attribute'=> 'status',
                                         'label'=>'状态',
                                         'value'=> function($model){

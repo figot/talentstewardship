@@ -152,7 +152,7 @@ class MyController extends ActiveController
         if (!empty($talentinfo)) {
             $arrRes['authstatus'] = $talentinfo->authstatus;
             $edu = array();
-            $pretalent = TalentCategory::find(['id', 'educate', 'talentlevel'])->where(['authmethod' => \Yii::$app->params['talent.catestatus']['eduauth']])->asArray()->all();
+            $pretalent = TalentCategory::find(['id', 'educate', 'talentlevel'])->asArray()->all();
             foreach ($pretalent as $v) {
                 $edu[$v['id']] = $v['talentlevel'];
             }

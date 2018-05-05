@@ -4,6 +4,7 @@ namespace b\models;
 
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use b\models\TalentCategory;
 
 /**
  *
@@ -86,6 +87,10 @@ class Talent extends ActiveRecord
         ];
     }
 
+    public function getTalentcategory()
+    {
+        return $this->hasOne(TalentCategory::className(), ['id' => 'category']);
+    }
     /**
      * @inheritdoc
      */

@@ -48,18 +48,35 @@ class UserdepartmapController extends Controller
         ]);
     }
     /**
-     * @brief 创建
+     * @brief 创建区域管理员
      */
     public function actionCreate()
     {
         $model = new Userdepartmap();
         $user = Userdepartmap::getUserinfo();
         $department = Depart::getSecondDepartsById();
-        if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('create', ['model' => $model, 'department' => $department, 'user' => $user]);
+        if ($model->load(Yii::$app->getRequest()->post())) {
+            $model->isroot = 3;
+            if ($model->save()) {
+                return $this->redirect(['index']);
+            }
         }
+        return $this->render('create', ['model' => $model, 'department' => $department, 'user' => $user]);
+    }
+    /**
+     * @brief 创建
+     */
+    public function actionCreateh()
+    {
+        $model = new Userdepartmap();
+        $user = Userdepartmap::getUserinfo();
+        if ($model->load(Yii::$app->getRequest()->post())) {
+            $model->isroot = 1;
+            if ($model->save()) {
+                return $this->redirect(['index']);
+            }
+        }
+        return $this->render('createh', ['model' => $model, 'user' => $user]);
     }
     /**
      * @brief 更新

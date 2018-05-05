@@ -12,6 +12,7 @@ use yii\web\Response;
 use yii\helpers\ArrayHelper;
 use app\models\ValidCheck;
 use app\models\Talentinfo;
+use app\models\Adminmessage;
 
 class TreatController extends ActiveController {
     public $modelClass = 'app\models\User';
@@ -61,6 +62,21 @@ class TreatController extends ActiveController {
             if (!empty($applyid)) {
                 $applyfiles = new TreatApplyFiles();
                 $applyfiles->saveImgs($applyid, $this->userId, $arrReq['uploads']);
+
+                $pro = Treatment::find()->where(['id' => $arrReq['treatid']])->one();
+                if (!empty($pro)) {
+                    $arrInput = array(
+                        'status' => \Yii::$app->params['adminuser.msgstatus']['unread'],
+                        'title' => '[专属待遇申报]' . $pro->title,
+                        'content' => $pro->content,
+                        'url' => \Yii::$app->params['hostname'] . '/b/web/welfareapply/review?id=' . $applyid,
+                        'msgtype' => 2,
+                        'department' => $pro->department,
+                        'area' => '',
+                    );
+                    $this->setAdminMessage($arrInput);
+                }
+
                 return $this->_buildReturn(\Yii::$app->params['ErrCode']['SUCCESS'], \Yii::$app->params['ErrMsg']['SUCCESS']);
             }
         } else {
@@ -81,5 +97,19 @@ class TreatController extends ActiveController {
         } else {
             return $this->_buildReturn(\Yii::$app->params['ErrCode']['PARAM_ERROR'], \Yii::$app->params['ErrMsg']['PARAM_ERROR']);
         }
+    }
+    /**
+     * @inheritdoc
+     */
+    protected function setAdminMessage($arrInput) {
+        $adminmsg = new Adminmessage();
+        $adminmsg->status = \Yii::$app->params['adminuser.msgstatus']['unread'];
+        $adminmsg->title = $arrInput['title'];
+        $adminmsg->content = $arrInput['content'];
+        $adminmsg->url = $arrInput['url'];
+        $adminmsg->msgtype = $arrInput['msgtype'];
+        $adminmsg->area = $arrInput['area'];
+        $adminmsg->department = $arrInput['department'];
+        $adminmsg->save();
     }
 }

@@ -144,6 +144,29 @@ function initMenu($menuArray, $controllerName, $isSubUrl, $isShowIcon=false)
         <!--logo start-->
         <a href="<?=Url::home()?>" class="logo">赣州市人才管家<span>后台系统</span></a>
         <!--logo end-->
+        <div class="nav notify-row" id="top_menu">
+            <!--  notification start -->
+            <ul class="nav top-menu">
+                <!-- settings start -->
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="badge bg-important">.</span>
+                    </a>
+                    <ul class="dropdown-menu extended tasks-bar">
+                        <div class="notify-arrow notify-arrow-green"></div>
+                        <li>
+                            <p class="green">酒店、申报、待遇、需求等消息</p>
+                        </li>
+                        <li class="external">
+                            <a href="<?=Url::toRoute('/msg/index')?>">查看所有消息</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- settings end -->
+            </ul>
+            <!--  notification end -->
+        </div>
         <div class="top-nav ">
             <!--search & user info start-->
             <ul class="nav pull-right top-menu">

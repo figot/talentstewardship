@@ -112,6 +112,13 @@ $this->params['breadcrumbs'][] =  $this->title;
                                         'label' => '金额',
                                     ],
                                     [
+                                        'attribute'=> 'hotelcheckstatus',
+                                        'label'=>'酒店确认状态',
+                                        'value'=> function($model){
+                                            return Yii::$app->params['order.hotelcheckstatus'][$model->hotelcheckstatus];
+                                        },
+                                    ],
+                                    [
                                         'attribute'=> 'status',
                                         'label'=>'状态',
                                         'value'=> function($model){
@@ -174,16 +181,20 @@ $this->params['breadcrumbs'][] =  $this->title;
 
                     <div class="row">
                         <div class="col-md-6">
-                            <?= $form->field($model, 'status', [
-                                'labelOptions' => ['class'=>'col-lg-2 control-label'],
-                                'template' => '
-                            {label}
-                            <div class="col-lg-10">
-                            {input}
-                            {error}
-                            </div>
-                            ',
-                            ])->radioList(['1' =>'未入住', '2' =>'入住确认']) ?>
+                            <?
+                                if ($model->status == 1) {
+                                    echo $form->field($model, 'status', [
+                                        'labelOptions' => ['class'=>'col-lg-2 control-label'],
+                                        'template' => '
+                                        {label}
+                                        <div class="col-lg-10">
+                                        {input}
+                                        {error}
+                                        </div>
+                                    ',
+                                    ])->radioList(['1' =>'未入住', '2' =>'入住确认']);
+                                }
+                            ?>
                         </div>
                     </div>
 
@@ -192,8 +203,10 @@ $this->params['breadcrumbs'][] =  $this->title;
                     <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-11">
                             <?php
-                            echo Html::submitButton($model->isNewRecord ? Yii::t('common', 'Review') : Yii::t('common', 'Review'), [
-                                'class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-primary'])
+                            if ($model->status == 1) {
+                                echo Html::submitButton($model->isNewRecord ? Yii::t('common', 'Review') : Yii::t('common', 'Review'), [
+                                    'class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-primary']);
+                            }
                             ?>
                         </div>
                     </div>

@@ -4,8 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
 
-$this->title = '用户与机构配置';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = '消息列表';
 $this->registerCssFile('@web/statics/assets/data-tables/DT_bootstrap.css', ['depends'=>'b\assets\AppAsset']);
 
 ?>
@@ -18,15 +17,6 @@ $this->registerCssFile('@web/statics/assets/data-tables/DT_bootstrap.css', ['dep
         </header>
         <div class="panel-body">
             <div class="adv-table editable-table ">
-                <div class="clearfix">
-                    <div class="btn-group">
-                        <?= Html::a('设置用户管理的区域'.' <i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-success', 'style' => 'margin-bottom:15px;']) ?>
-                    </div>
-                    <div class="btn-group">
-                        <?= Html::a('设置市委超级用户'.' <i class="fa fa-plus"></i>', ['createh'], ['class' => 'btn btn-success', 'style' => 'margin-bottom:15px;']) ?>
-                    </div>
-                </div>
-                <div class="space15"></div>
                 <?=
                 GridView::widget([
                     'dataProvider' => $dataProvider,
@@ -51,25 +41,46 @@ $this->registerCssFile('@web/statics/assets/data-tables/DT_bootstrap.css', ['dep
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         [
-                            'attribute' => 'username',
-                            'value' => 'admin.username',
-                            'label' => '用户名称',
+                            'attribute' => 'title',
+                            'label' => '消息标题',
                         ],
                         [
-                            'attribute'=> 'isroot',
-                            'label'=>'权限级别',
-                            'value'=> function($model){
-                                return Yii::$app->params['adminuser.rootlevel'][$model->isroot];
+                            'attribute' => 'msgtype',
+                            'value' => function($model){
+                                return Yii::$app->params['talent.msgtype'][$model->msgtype];
+                            },
+                            'label' => '消息类型',
+                        ],
+                        [
+                            'attribute' => 'area',
+                            'label' => '区域',
+                        ],
+                        [
+                            'attribute' => 'department',
+                            'label' => '所属部门',
+                        ],
+                        [
+                            'attribute' => 'status',
+                            'value' => function($model){
+                                return Yii::$app->params['adminuser.msgstatusname'][$model->status];
+                            },
+                            'label' => '状态',
+                        ],
+                        [
+                            'label'=>'创建时间',
+                            'value'=>function($model){
+                                return date('Y-m-d H:i:s',$model->created_at);
                             },
                         ],
                         [
-                            'attribute' => 'subdepart',
-                            'value' => 'depart.subdepart',
-                            'label' => '所属机构',
+                            'label'=>'更新时间',
+                            'value'=>function($model) {
+                                return date('Y-m-d H:i:s', $model->updated_at);
+                            }
                         ],
                         [
                             'class' => 'yii\grid\ActionColumn',
-                            'template' => '{update} {delete}',
+                            'template' => '{view} {delete}',
                             'header' => '操作',
                         ],
                     ],

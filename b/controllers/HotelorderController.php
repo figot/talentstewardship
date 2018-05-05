@@ -15,6 +15,7 @@ use dosamigos\qrcode\QrCode;
 use yii\web\Response;
 use yii\helpers\Url;
 use kartik\mpdf\Pdf;
+use b\models\TalentCategory;
 
 /**
  * 酒店订单
@@ -61,13 +62,8 @@ class HotelorderController extends Controller
         $model = $this->findModel($id);
         $talent = Talentinfo::getInfo($model->user_id);
         $hotel = Hotel::find()->where(['id' => $model->hotelid])->one();
-
+        $talent['category'] = $this->getTalentLevelName($talent);
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
-            $adminmsg = new Adminmessage();
-            $adminmsg->status = 1;
-            $adminmsg->title = '酒店申请确认通过通知';
-            $adminmsg->content = "本人". $model->user_name . "身份证" . $model->id_number . "联系电话" . $talent['mobile'] . "在" . $hotel->hotelname . "入住" . $model->roomtype . ceil(abs(strtotime(date('Y-m-d',$model->enddt)) - strtotime(date('Y-m-d',$model->startdt)))) / 86400 . "天, 确认无误,详细信息请查阅酒店订单列表";
-            $adminmsg->save();
             return $this->redirect(['index', 'hotelid' => $model->hotelid]);
         }
 
@@ -81,9 +77,19 @@ class HotelorderController extends Controller
         $model = $this->findModel($id);
         $talent = Talentinfo::getInfo($model->user_id);
         $hotel = Hotel::find()->where(['id' => $model->hotelid])->one();
+        $talent['category'] = $this->getTalentLevelName($talent);
         if ($model->load(Yii::$app->getRequest()->post())) {
             $model->chkindt = time();
             if ($model->save()) {
+                $arrInput = array(
+                    'status' => \Yii::$app->params['adminuser.msgstatus']['unread'],
+                    'title' => $model->user_name . '入住酒店' . $hotel->hotelname . '确认通知',
+                    'content' => "本人". $model->user_name . "身份证" . $model->id_number . "联系电话" . $talent['mobile'] . "在" . $hotel->hotelname . "入住" . $model->roomtype . ceil(abs(strtotime(date('Y-m-d',$model->enddt)) - strtotime(date('Y-m-d',$model->startdt)))) / 86400 . "天, 确认无误,详细信息请查阅酒店订单列表",
+                    'url' => \Yii::$app->params['hostname'] . '/b/web/hotelorder/review?id=' . $id,
+                    'msgtype' => 1,
+                    'area' => $hotel->area,
+                );
+                $this->setAdminMessage($arrInput);
                 return $this->redirect(['index', 'hotelid' => $model->hotelid]);
             }
         }
@@ -102,6 +108,7 @@ class HotelorderController extends Controller
         }
         $talent = Talentinfo::getInfo($model->user_id);
         $hotel = Hotel::find()->where(['id' => $model->hotelid])->one();
+        $talent['category'] = $this->getTalentLevelName($talent);
         $content = $this->renderPartial('report', ['model' => $model, 'hotel' => $hotel,  'talent' => $talent, 'education' => $talent['education']]);
 
         // setup kartik\mpdf\Pdf component
@@ -147,6 +154,7 @@ class HotelorderController extends Controller
         $model = $this->findModel($id);
         $talent = Talentinfo::getInfo($model->user_id);
         $hotel = Hotel::find()->where(['id' => $model->hotelid])->one();
+        $talent['category'] = $this->getTalentLevelName($talent);
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
             return $this->redirect(['index', 'hotelid' => $model->hotelid]);
         }
@@ -161,6 +169,7 @@ class HotelorderController extends Controller
         $model = $this->findModel($id);
         $talent = Talentinfo::getInfo($model->user_id);
         $hotel = Hotel::find()->where(['id' => $model->hotelid])->one();
+        $talent['category'] = $this->getTalentLevelName($talent);
         return $this->render('view', ['model' => $model, 'hotel' => $hotel,  'talent' => $talent, 'education' => $talent['education']]);
     }
     /**
@@ -176,5 +185,33 @@ class HotelorderController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    /**
+     * @inheritdoc
+     */
+    protected function getTalentLevelName($talent) {
+        $talentcate = array();
+        $pretalent = TalentCategory::find(['id', 'educate', 'talentlevel'])->where(['authmethod' => \Yii::$app->params['talent.catestatus']['eduauth']])->asArray()->all();
+        foreach ($pretalent as $v) {
+            $talentcate[$v['id']] = $v['talentlevel'];
+        }
+        if (isset($talentcate[$talent['category']])) {
+            return $talentcate[$talent['category']];
+        } else {
+            return '';
+        }
+    }
+    /**
+     * @inheritdoc
+     */
+    protected function setAdminMessage($arrInput) {
+        $adminmsg = new Adminmessage();
+        $adminmsg->status = \Yii::$app->params['adminuser.msgstatus']['unread'];
+        $adminmsg->title = $arrInput['title'];
+        $adminmsg->content = $arrInput['content'];
+        $adminmsg->url = $arrInput['url'];
+        $adminmsg->msgtype = $arrInput['msgtype'];
+        $adminmsg->area = $arrInput['area'];
+        $adminmsg->save();
     }
 }

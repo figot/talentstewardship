@@ -8,6 +8,7 @@ use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 use yii\web\Response;
+use app\models\TalentCategory;
 
 class ReservationController extends ActiveController
 {
@@ -54,11 +55,19 @@ class ReservationController extends ActiveController
         $reserve = new Reservation();
         $reserve->load($arrReq, '');
         $talent = Talentinfo::find()->where(['user_id' => $this->userId])->one();
+        $edu = array();
+        $pretalent = TalentCategory::find(['id', 'talentlevel'])->asArray()->all();
+        foreach ($pretalent as $v) {
+            $edu[$v['id']] = $v['talentlevel'];
+        }
         if ($talent['authstatus'] != \Yii::$app->params['talent.authstatus']['authsuccess']) {
             return $this->_buildReturn(\Yii::$app->params['ErrCode']['NOT_AUTH_SUCCESS'], \Yii::$app->params['ErrMsg']['NOT_AUTH_SUCCESS']);
         }
         $hotel = Hotel::find()->where(['id' => $arrReq['hotelid']])->one();
-        if (strpos($hotel['suitper'], $talent['category']) === false) {
+        if (!isset($edu[$talent['category']])) {
+            return $this->_buildReturn(\Yii::$app->params['ErrCode']['TALENT_LEVEL_NOT_MATCH_HOTEL'], \Yii::$app->params['ErrMsg']['TALENT_LEVEL_NOT_MATCH_HOTEL']);
+        }
+        if (strpos($hotel['suitper'], $edu[$talent['category']]) === false) {
             return $this->_buildReturn(\Yii::$app->params['ErrCode']['TALENT_LEVEL_NOT_MATCH_HOTEL'], \Yii::$app->params['ErrMsg']['TALENT_LEVEL_NOT_MATCH_HOTEL']);
         }
         if ($reserve->validate()) {

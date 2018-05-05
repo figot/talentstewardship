@@ -30,14 +30,7 @@ class ScenicController extends ActiveController {
         $scenic = new Scenic();
         $scenic->load($arrReq, '');
         if ($validator->load($arrReq, '') && $validator->validate()) {
-            if (empty($arrReq['latitude']) || empty($arrReq['longitude'])) {
-                $model = $scenic->get($validator->rn, $validator->pn, $arrReq);
-            }
-//            foreach ($model['list'] as $key => $value) {
-//                $model['list'][$key]['thumbnail'] = \Yii::$app->request->getHostInfo() . $value['thumbnail'];
-//                $model['list'][$key]['distance'] = intval($key) + 0.1;
-//                $model['list'][$key]['url'] = $value['url'] . $value['id'];
-//            }
+            $model = $scenic->get($validator->rn, $validator->pn, $arrReq);
             return $this->_buildReturn(\Yii::$app->params['ErrCode']['SUCCESS'], \Yii::$app->params['ErrMsg']['SUCCESS'], $model);
         } else {
             return $this->_buildReturn(\Yii::$app->params['ErrCode']['PARAM_ERROR'], \Yii::$app->params['ErrMsg']['PARAM_ERROR']);

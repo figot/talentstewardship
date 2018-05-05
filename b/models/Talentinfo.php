@@ -52,7 +52,7 @@ class Talentinfo extends ActiveRecord
     public function rules()
     {
         return [
-
+            [['category', 'authstatus', 'catestatus'], 'trim'],
         ];
     }
 
@@ -96,7 +96,6 @@ class Talentinfo extends ActiveRecord
         $talent['idcardupurl'] = \Yii::$app->request->getHostInfo() . '/app/web/img/get?sign=' . $talent['idcardup'];
         $talent['idcarddownurl'] = \Yii::$app->request->getHostInfo() . '/app/web/img/get?sign=' . $talent['idcarddown'];
         $talent['education'] = $education;
-        \Yii::warning('===============' . var_export($talent, true));
         return $talent;
     }
 }

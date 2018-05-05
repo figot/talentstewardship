@@ -6,7 +6,8 @@ DROP TABLE IF EXISTS `userdepartmap`;
 CREATE TABLE `userdepartmap` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL COMMENT '用户id',
-  `subdepartid` int(10) unsigned NOT NULL COMMENT '二级区域id',
+  `subdepartid` int(10) unsigned NULL COMMENT '二级区域id',
+  `isroot` tinyint(6) unsigned NOT NULL DEFAULT 3 COMMENT '状态，1管理员用户 2普通用户 3 区域管理员',
   `created_at` bigint NOT NULL DEFAULT 0 COMMENT '创建时间',
   `updated_at` bigint NOT NULL DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (`id`),

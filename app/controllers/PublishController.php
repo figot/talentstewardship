@@ -13,6 +13,7 @@ use yii\web\Response;
 use app\models\Policyapply;
 use app\models\Projectapply;
 use app\models\ProjectApplyFiles;
+use app\models\Adminmessage;
 
 class PublishController extends ActiveController {
     public $modelClass = 'app\models\User';
@@ -80,25 +81,6 @@ class PublishController extends ActiveController {
      */
     public function actionProject() {
         $arrReq = $this->getRequestParams();
-//        $arrReq = array(
-//            'access_token' => '_ktbmHPII9LyZm8utNL_vOXw9YJBFs29',
-//		    'id' => 2,//对应列表的id
-//		    'remark' => '备注',//备注
-//		    'uploads' => array(
-//                0 => array(
-//                    'templateid' => 1, //模板id
-//                    'filesigns' => array(
-//                        '11',
-//                    ),
-//                ),
-//                1 => array(
-//                    'templateid' => 2, //模板id
-//                    'filesigns' => array(
-//                        '22',
-//                    ),
-//                ),
-//            ),
-//        );
         $project = new Projectapply();
         $talent = Talentinfo::findOne(['user_id' => $this->userId]);
         if (empty($talent)) {
@@ -111,6 +93,19 @@ class PublishController extends ActiveController {
                     $applyfiles = new ProjectApplyFiles();
                     $applyfiles->saveImgs($applyid, $this->userId, $arrReq['uploads']);
                 }
+            }
+            $pro = Project::find()->where(['id' => $arrReq['id']])->one();
+            if (!empty($pro)) {
+                $arrInput = array(
+                    'status' => \Yii::$app->params['adminuser.msgstatus']['unread'],
+                    'title' => '[项目申报]' . $pro->title,
+                    'content' => $pro->content,
+                    'url' => \Yii::$app->params['hostname'] . '/b/web/projectapply/review?id=' . $applyid,
+                    'msgtype' => 2,
+                    'department' => $pro->department,
+                    'area' => '',
+                );
+                $this->setAdminMessage($arrInput);
             }
             return $this->_buildReturn(\Yii::$app->params['ErrCode']['SUCCESS'], \Yii::$app->params['ErrMsg']['SUCCESS']);
         } else {
@@ -144,5 +139,19 @@ class PublishController extends ActiveController {
             }
         }
 
+    }
+    /**
+     * @inheritdoc
+     */
+    protected function setAdminMessage($arrInput) {
+        $adminmsg = new Adminmessage();
+        $adminmsg->status = \Yii::$app->params['adminuser.msgstatus']['unread'];
+        $adminmsg->title = $arrInput['title'];
+        $adminmsg->content = $arrInput['content'];
+        $adminmsg->url = $arrInput['url'];
+        $adminmsg->msgtype = $arrInput['msgtype'];
+        $adminmsg->area = $arrInput['area'];
+        $adminmsg->department = $arrInput['department'];
+        $adminmsg->save();
     }
 }
