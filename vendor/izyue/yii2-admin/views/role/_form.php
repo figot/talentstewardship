@@ -69,21 +69,6 @@ unset($rules[RouteRule::RULE_NAME]);
                     'class' => 'form-control',
                 ]) ?>
 
-                <?= $form->field($model, 'data', [
-                    'labelOptions' => ['class'=>'col-lg-2 control-label'],
-                    'template' => '
-                                {label}
-                                <div class="col-lg-10">
-                                {input}
-                                {error}
-                                </div>
-                                ',
-                ])->textarea([
-                    'rows' => 6,
-                    'class' => 'form-control',
-                ]) ?>
-
-
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
                         <?php

@@ -22,12 +22,6 @@ $this->params['breadcrumbs'][] =  $this->title;
                     <?='待遇申请发布审核'?>
                 </header>
                 <div class="panel-body">
-                    <div class="clearfix">
-                        <div class="btn-group">
-                            <?= Html::a('打印为pdf'.' <i class="fa fa-plus"></i>', ['report', 'id' => $model->id], ['class' => 'btn btn-success', 'style' => 'margin-bottom:15px;', 'target'=> '_blank']) ?>
-                        </div>
-                    </div>
-
                     <div class="row">
                         <div class="col-lg-11">
                             <?=
@@ -56,7 +50,14 @@ $this->params['breadcrumbs'][] =  $this->title;
                                     'user_name',
                                     'id_number',
                                     'remark',
-                                    //['attribute'=> '政策落地页预览', 'value' => function ($model) {return Html::a('落地页跳转',Yii::$app->params['h5urlprefix'] . "policy?id={$model->id}", ['class' => "btn btn-xs btn-info", 'target'=> '_blank']);}, 'format' => 'raw',],
+                                    'reason',
+                                    [
+                                        'attribute' => 'applystatus',
+                                        'value' => function($model){
+                                            return Yii::$app->params['talent.applystatusname2'][$model->applystatus];
+                                        },
+                                        'label' => '审核状态',
+                                    ],
                                     ['label'=>'创建时间','value'=>date('Y-m-d H:i:s',$model->created_at)],
                                     ['label'=>'更新时间','value'=>date('Y-m-d H:i:s',$model->updated_at)],
                                 ],
@@ -103,60 +104,6 @@ $this->params['breadcrumbs'][] =  $this->title;
                             ?>
                         </div>
                     </div>
-
-                    <?php $form = ActiveForm::begin([
-                        'options'=>[
-                            'class'=>'form-horizontal'
-                        ]
-                    ]); ?>
-
-                    <div class="row">
-                        <div class="col-md-11">
-                            <?= $form->field($model, 'applystatus', [
-                                'labelOptions' => ['class'=>'col-lg-2 control-label'],
-                                'template' => '
-                            {label}
-                            <div class="col-lg-10">
-                            {input}
-                            {error}
-                            </div>
-                            ',
-                            ])->radioList(['1' =>'暂不审核', '2' =>'审核通过', '4'=>'审核不通过'],
-                                ['itemOptions'=>['disabled' => $model->applystatus == 2 ? true : false]]) ?>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-11">
-                            <?= $form->field($model, 'reason', [
-                                'labelOptions' => ['class'=>'col-lg-2 control-label'],
-                                'template' => '
-                            {label}
-                            <div class="col-lg-10">
-                            {input}
-                            {error}
-                            </div>
-                            ',
-                            ])->textarea([
-                                'rows' => 2,
-                                'class' => 'form-control',
-                                'disabled' => $model->applystatus == 2 ? true : false,
-                            ]) ?>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-lg-offset-1 col-lg-11">
-                            <?php
-                            if ($model->applystatus != 2) {
-                                echo Html::submitButton($model->isNewRecord ? Yii::t('common', 'Review') : Yii::t('common', 'Review'), [
-                                    'class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-primary']);
-                            }
-                            ?>
-                        </div>
-                    </div>
-
-                    <?php ActiveForm::end(); ?>
 
                 </div>
             </section>
